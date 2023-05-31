@@ -15,9 +15,7 @@
 /* ------------------------------------- */
 
 body {
-  font-family: 'Courier New', Courier, monospace;
   background-color: #190657;
-  text-align: center;
 }
 
 .spin-button {
@@ -33,7 +31,6 @@ body {
   cursor: pointer;
   background-image: url('https://raw.githubusercontent.com/thiagocolen/slot-machine/main/assets/images/slot-machine2.png');
   background-position: -666px -288px;
-  /* border: solid 1px red; */
 }
 
 .spin-button-clicked {
