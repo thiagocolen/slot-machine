@@ -21,10 +21,19 @@ export class SlotMachine {
   public finished_reels: number = 0;
   public result: any[] = [];
 
+  public snd = new Audio(
+    'assets/sounds/mixkit-arcade-slot-machine-wheel-1933.wav'
+  );
+  public playButton = document.getElementById('play');
+
   constructor() {
     this.initPreviousReelObj();
     this.createSlotMachine(CONFIG.SLOT_MACHINE_SIZE);
     this.createSpinButton();
+    this.playButton.addEventListener('click', () => {
+      console.log(this.snd);
+      this.snd.play();
+    });
   }
 
   initPreviousReelObj() {

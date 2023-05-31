@@ -29,6 +29,17 @@ body {
   background-color: #d76e35;
 }
 
+.orange-shadow {
+  -webkit-box-shadow: 0 0 132px 0px #a9672e;
+  -moz-box-shadow: 0 0 132px 0px #a9672e;
+  box-shadow: 0 0 132px 0px #a9672e;
+}
+
+.play-button {
+  position: absolute;
+  z-index: 1000;
+}
+
 .middle-bg {
   position: absolute;
   z-index: -10;
