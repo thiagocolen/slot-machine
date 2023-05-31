@@ -15,6 +15,7 @@ body {
   background-color: lightgreen;
   text-align: center;
 }
+
 button {
   padding: 20px;
   background-color: black;
@@ -30,9 +31,12 @@ button:hover {
 }
 
 .slot-machine {
-  position: relative;
-  margin: auto;
-  border: solid 60px black;
+  position: absolute;
+  z-index: 10;
+  top: 100px;
+  left: 50%;
+  margin-left: -100px;
+
   height: var(--slot-height);
   overflow: hidden;
 }
@@ -64,14 +68,12 @@ button:hover {
 }
 
 .slot-machine-bg {
-  width: 400px;
-  height: 400px;
-  border: solid 5px red;
-  background-image: url('assets/images/slot-machine1.png');
+  position: absolute;
+  z-index: 0;
+  top: 100px;
+  left: 50%;
+  margin-left: -400px;
+  width: 816px;
+  height: 624px;
+  background-image: url('https://raw.githubusercontent.com/thiagocolen/slot-machine/main/assets/images/slot-machine1.png');
 }
-
-/* TODO: how can I apply this slot machine sprite? */
-/* https://cazwolf.itch.io/pixel-slot-machine */
-/* https://www.youtube.com/watch?v=ekI7vjkFrGA */
-/* https://codepen.io/hannahgooding/pen/MWjGwEw */
-/* https://blog.logrocket.com/making-css-animations-using-a-sprite-sheet/ */
