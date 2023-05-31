@@ -1,8 +1,17 @@
 {
-  "name": "typescript",
+  "name": "slot-machine",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "npx parcel serve src/index.html -p 4000",
+    "build": "npx parcel build src/index.html"
+  },
   "dependencies": {
-    "lit-element": "^3.3.2"
+    "lit-element": "^3.3.2",
+    "typescript": "^5.0.4"
+  },
+  "devDependencies": {
+    "parcel": "^2.9.1"
   }
 }

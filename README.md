@@ -1,12 +1,22 @@
 # slot-machine
 
-[Edit on StackBlitz ⚡️](https://stackblitz.com/edit/typescript-znxm7s)
+## To run 
 
-### TODO:
+`npm install`
+
+`npm start`
+
+open browser on http://127.0.0.1:4000/
+
+---
+
+## To do:
 
 [x] - how can I apply this slot machine sprite?
 
 [x] - create a paytable
+
+[x] - remove it from stackblitz
 
 [ ] - create a points/score display
 
@@ -14,7 +24,9 @@
 
 [ ] - add sound effects
 
-### Rerefences
+---
+
+## Rerefences
 
 - https://cazwolf.itch.io/pixel-slot-machine
 
@@ -33,3 +45,5 @@
 - https://medium.com/linkapi-solutions/conventional-commits-pattern-3778d1a1e657
 
 - https://miro.medium.com/v2/resize:fit:1400/format:webp/1*izVKF4AT1iDtv4fJO8oWWA.png
+
+- https://parceljs.org/getting-started/webapp/
