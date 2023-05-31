@@ -42,15 +42,8 @@ export class SlotMachine {
   }
 
   createSlotMachine(size: number) {
-    this.container = document.getElementById('container');
-    this.container.setAttribute('class', 'slot-machine');
-    this.container.setAttribute('style', `width: ${200 * size}px`);
+    this.container = document.getElementsByClassName('slot-machine')[0];
     this.container.innerHTML = null;
-
-    const center_line_element = document.createElement('div');
-    center_line_element.setAttribute('class', 'center-line');
-
-    this.container.appendChild(center_line_element);
 
     this.reel_animations = [];
     for (let i = 0; i < size; i++) {
