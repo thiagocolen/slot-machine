@@ -6,7 +6,11 @@
 
 [x] - how can I apply this slot machine sprite?
 
-[ ] - how counting points?
+[x] - create a paytable
+
+[ ] - create a points/score display
+
+[ ] - how counting/calculate points?
 
 ### Rerefences
 
