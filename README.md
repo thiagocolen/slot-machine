@@ -12,6 +12,8 @@
 
 - https://cazwolf.itch.io/pixel-slot-machine
 
+- https://itch.io/
+
 - https://www.youtube.com/watch?v=ekI7vjkFrGA
 
 - https://codepen.io/hannahgooding/pen/MWjGwEw
