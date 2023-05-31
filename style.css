@@ -20,18 +20,24 @@ body {
   text-align: center;
 }
 
-button {
-  padding: 20px;
-  background-color: black;
-  color: white;
-  font-size: 20px;
-  font-weight: bold;
-  border: 0;
+.spin-button {
+  position: absolute;
+  z-index: 200;
+  width: 110px;
+  height: 340px;
+
+  top: 338px;
+  left: 50%;
+  margin-left: 263px;
+
   cursor: pointer;
+  background-image: url('https://raw.githubusercontent.com/thiagocolen/slot-machine/main/assets/images/slot-machine2.png');
+  background-position: -666px -288px;
+  /* border: solid 1px red; */
 }
 
-button:hover {
-  background-color: green;
+.spin-button-clicked {
+  background-image: url('https://raw.githubusercontent.com/thiagocolen/slot-machine/main/assets/images/slot-machine3.png');
 }
 
 .slot-machine {

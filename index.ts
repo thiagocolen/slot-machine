@@ -37,8 +37,16 @@ export class SlotMachine {
   }
 
   createSpinButton() {
-    this.spinButton = document.getElementById('spinButton');
-    this.spinButton.addEventListener('click', () => this.spin());
+    this.spinButton = document.getElementsByClassName('spin-button')[0];
+    this.spinButton.addEventListener('click', () => {
+      this.spinButton.setAttribute('class', 'spin-button spin-button-clicked');
+
+      setTimeout(() => {
+        this.spinButton.setAttribute('class', 'spin-button');
+      }, CONFIG.SPIN_BUTTON_DELAY);
+
+      this.spin();
+    });
   }
 
   createSlotMachine(size: number) {

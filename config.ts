@@ -5,4 +5,5 @@ export const CONFIG = Object.freeze({
   ANIMATION_DELAY: 1000,
   ANIMATION_DURATION: 2000,
   SYMBOL_QTY: 3,
+  SPIN_BUTTON_DELAY: 800
 });
