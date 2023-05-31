@@ -64,9 +64,9 @@ export class SlotMachine {
     reel.setAttribute('id', `slot_${i}`);
 
     for (let i = 0; i <= CONFIG.REEL_SIZE; i++) {
-      const randomIndex = Math.floor(Math.random() * CONFIG.CARD_SUITS.length);
+      const randomIndex = Math.floor(Math.random() * CONFIG.SYMBOL_QTY);
       const symbolHtml = `
-        <div class="symbol" id="${i}">${CONFIG.CARD_SUITS[randomIndex]}</div>
+        <div class="symbol symbol_${randomIndex}" id="${randomIndex}"></div>
         `;
       reel.innerHTML = reel.innerHTML + symbolHtml;
     }
@@ -158,16 +158,18 @@ export class SlotMachine {
         CONFIG.REEL_OFFSET;
 
       this.result.push(
-        document.getElementById(`slot_${i}`).children[offset].innerHTML
+        document.getElementById(`slot_${i}`).children[offset].getAttribute('id')
       );
     }
 
+    console.log(this.result);
+
     const result = this.result.reduce((previous, current) => {
       if (previous === current) return current;
-      return CONFIG.NO_CARD_SUIT;
+      return null;
     });
 
-    if (result === CONFIG.NO_CARD_SUIT) {
+    if (result === null) {
       this.showLost();
     } else {
       this.showWin();

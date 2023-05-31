@@ -1,6 +1,8 @@
 :root {
-  --slot-height: 400px;
-  --symbol-height: 200px;
+  --slot-height: 300px;
+
+  --symbol-height: 96px;
+  --symbol-width: var(--symbol-height);
 
   --reel-offset: calc(
     (var(--slot-height) / 2) - (var(--symbol-height) / 2) -
@@ -57,14 +59,8 @@ button:hover {
 }
 
 .symbol {
-  background-color: #fbab7e;
-  /* https://cssgradient.io/gradient-backgrounds/ */
-  background-image: linear-gradient(62deg, #fbab7e 0%, #f7ce68 100%);
-
   height: var(--symbol-height);
-  font-size: 240px;
-  line-height: 200px;
-  text-align: center;
+  width: 96px;
 }
 
 .slot-machine-bg {
@@ -76,4 +72,20 @@ button:hover {
   width: 816px;
   height: 624px;
   background-image: url('https://raw.githubusercontent.com/thiagocolen/slot-machine/main/assets/images/slot-machine1.png');
+}
+
+.symbol_0 {
+  background-image: url('https://raw.githubusercontent.com/thiagocolen/slot-machine/main/assets/images/slot-symbol4.png');
+}
+
+.symbol_1 {
+  background-image: url('https://raw.githubusercontent.com/thiagocolen/slot-machine/main/assets/images/slot-symbol1.png');
+}
+
+.symbol_2 {
+  background-image: url('https://raw.githubusercontent.com/thiagocolen/slot-machine/main/assets/images/slot-symbol2.png');
+}
+
+.symbol_3 {
+  background-image: url('https://raw.githubusercontent.com/thiagocolen/slot-machine/main/assets/images/slot-symbol3.png');
 }
