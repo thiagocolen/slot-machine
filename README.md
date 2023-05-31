@@ -1,4 +1,4 @@
-# slot-machine
+# Slot Machine
 
 ## To run 
 
@@ -7,8 +7,6 @@
 `npm start`
 
 open browser on http://127.0.0.1:4000/
-
----
 
 ## To do:
 
@@ -24,7 +22,6 @@ open browser on http://127.0.0.1:4000/
 
 [ ] - add sound effects
 
----
 
 ## Rerefences
 
