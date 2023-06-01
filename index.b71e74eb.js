@@ -595,7 +595,6 @@ class SlotMachine {
             console.log(this.snd);
             this.snd.play();
         });
-        console.log();
     }
     initPreviousReelObj() {
         for(let i = 0; i < (0, _config.CONFIG).SLOT_MACHINE_SIZE; i++)this.previous_reel.push({
