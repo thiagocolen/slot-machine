@@ -16,6 +16,8 @@ open browser on http://127.0.0.1:4000/
 
 [x] - remove it from stackblitz
 
+[x] - create a github page
+
 [ ] - create a points/score display
 
 [ ] - how counting/calculate points?

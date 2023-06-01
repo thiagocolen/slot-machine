@@ -1,8 +1,4 @@
-import "./my-icon";
-
-// Import stylesheets
 import "./style.css";
-
 import { CONFIG } from "./config";
 
 interface Reel {
@@ -22,7 +18,7 @@ class SlotMachine {
     public result: any[] = [];
 
     public snd = new Audio(
-        "assets/sounds/mixkit-arcade-slot-machine-wheel-1933.wav"
+        "./assets/sounds/mixkit-arcade-slot-machine-wheel-1933.wav"
     );
     public playButton;
 
@@ -220,4 +216,4 @@ class SlotMachine {
     }
 }
 
-new SlotMachine();
+const sm = new SlotMachine();
