@@ -576,8 +576,10 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 },{}],"h7u1C":[function(require,module,exports) {
 var _styleCss = require("./style.css");
 var _config = require("./config");
-const baseTag = document.getElementsByTagName("base")[0];
-baseTag.setAttribute("href", location.href);
+// const baseTag = document.getElementsByTagName('base')[0];
+// baseTag.setAttribute('href', location.href);
+// console.log(baseTag);
+// console.log(location);
 let BASE_URL;
 console.log('process.env.NODE_ENV !== "production"', "development");
 BASE_URL = (0, _config.CONFIG).BASE_URL_DEV;
