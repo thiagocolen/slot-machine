@@ -22,9 +22,15 @@ open browser on http://127.0.0.1:4000/
 
 [doing] - add sound effects
 
-[ ] - create a points/score display
+[doing] - create a points/score display
 
-[ ] - how counting/calculate points?
+[done] - how counting/calculate points?
+
+[] - create a timer to give money to the user every 12 hours
+
+[] - spin button disable while reel is spinnig
+
+[] - I want to bet a variable number of coins
 
 ## Rerefences
 

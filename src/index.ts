@@ -76,10 +76,19 @@ class SlotMachine {
     // Audio FX
     public audioMachine: SlotAudioMachine = new SlotAudioMachine(audioCtx);
 
+
+    //
+    public score: number = 0;
+    public betValue: number = 10;
+
     constructor() {
         this.initPreviousReelObj();
         this.createSlotMachine(CONFIG.SLOT_MACHINE_SIZE);
         this.createSpinButton();
+
+        this.getScore();
+        this.changeScore(0);
+
     }
 
     initPreviousReelObj() {
@@ -214,6 +223,9 @@ class SlotMachine {
     }
 
     spin(): void {
+
+        this.changeScore(-this.betValue);
+
         this.createSlotMachine(CONFIG.SLOT_MACHINE_SIZE);
 
         setTimeout(() => {
@@ -240,30 +252,86 @@ class SlotMachine {
             );
         }
 
-        console.log(this.result);
+        this.checkResult(this.result);
+    }
 
-        const result = this.result.reduce((previous, current) => {
-            if (previous === current) return current;
-            return null;
-        });
+    checkResult(result: string[]): void {
+        const uniqueValues = Array.from(new Set(result));
 
-        if (result === null) {
-            this.showLost();
+        console.log(uniqueValues);
+
+        if (uniqueValues.length === 1) {
+            if (uniqueValues[0] === "1") {
+                this.changeScore(1000);
+            }
+
+            if (uniqueValues[0] === "3") {
+                this.changeScore(80);
+            }
+
+            if (uniqueValues[0] === "2") {
+                this.changeScore(40);
+            }
+
+            if (uniqueValues[0] === "0") {
+                this.changeScore(20);
+            }
+
+        } else if (uniqueValues.length === 2) {
+            let cherryQty = 0;
+            result.forEach((val) => {
+                if (val === '2') {
+                    cherryQty++;
+                }
+            });
+
+            if (cherryQty === 1) {
+                this.changeScore(5);
+            } else if (cherryQty === 2) {
+                this.changeScore(2);
+            } else {
+                this.changeScore(0);
+            }
+
         } else {
-            this.showWin();
+            let hasCherry = false;
+            uniqueValues.forEach((val) => {
+                if (val === "2") {
+                    hasCherry = true;
+                }
+            });
+
+            if (hasCherry) {
+                this.changeScore(2);
+            } else {
+                this.changeScore(0);
+            }
         }
     }
 
-    showLost() {
-        this.audioMachine.playTrack("audio_melodic_bonus");
-        console.log("Congratulations! You lost!");
-        console.log("-----------------------------------------");
+
+    private getScore() {
+        const score = localStorage.getItem("slot-machine-score");
+
+        if (score ===  null) {
+            localStorage.setItem("slot-machine-score", '100');
+            this.getScore();
+        } else {
+            this.score = Number(score);
+        }
+
+
     }
 
-    showWin() {
-        this.audioMachine.playTrack("audio_coin_win");
-        console.log("Congratulations! You win! nothing!");
-        console.log("-----------------------------------------");
+    private changeScore(times: number) {
+        this.score = this.score + (times * this.betValue);
+        console.log('score:', this.score, ' x:', times);
+
+        localStorage.setItem("slot-machine-score", this.score.toString());
+
+        const scoreDisplay: Element = document.getElementsByClassName('score')[0];    
+        scoreDisplay.innerHTML = `$ ${this.score.toString()}`;
+    
     }
 }
 

@@ -145,18 +145,22 @@ body {
     background-image: url("./assets/images/slot-machine1.png");
 }
 
+/* bar */
 .symbol_0 {
     background-image: url("./assets/images/slot-symbol4.png");
 }
 
+/* seven */
 .symbol_1 {
     background-image: url("./assets/images/slot-symbol1.png");
 }
 
+/* cherry */
 .symbol_2 {
     background-image: url("./assets/images/slot-symbol2.png");
 }
 
+/* bell */
 .symbol_3 {
     background-image: url("./assets/images/slot-symbol3.png");
 }
@@ -205,4 +209,20 @@ body {
     content: "";
     padding: 10px 0;
     font-size: 50px;
+}
+
+
+.score {
+    position: absolute;
+    z-index: 400;
+    left: 50%;
+    margin-left: -40px;
+    top: 77px;
+
+    font-size: 30px;
+
+    padding: 4px;
+    background-color: #190657;
+    color: #ff9e47;
+
 }
