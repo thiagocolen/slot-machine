@@ -2,9 +2,10 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <title>SLOT MACHINE</title>
+        <title>Lotine · The slot machine!</title>
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <meta name="description" content="" />
+        <meta name="description" content="A simple, small, little, tiny, fluffy, slot machine!" />
+        <link rel="icon" type="image/x-icon" href="./assets/images/favicon.ico">
         
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,8 +18,11 @@
     
     </head>
     <body>
-        <button class="play-button" id="play">play</button>
 
+        <audio id="audio_wheel" src="./assets/sounds/mixkit-arcade-slot-machine-wheel-1933.wav" crossorigin="anonymous" ></audio>
+        <audio id="audio_coin_win" src="./assets/sounds/mixkit-magical-coin-win-1936.wav" crossorigin="anonymous" ></audio>
+        <audio id="audio_melodic_bonus" src="./assets/sounds/mixkit-melodic-bonus-collect-1938.wav" crossorigin="anonymous" ></audio>
+        
         <div class="header orange-texture orange-shadow"></div>
 
         <div class="slot-machine"></div>

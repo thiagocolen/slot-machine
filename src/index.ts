@@ -1,6 +1,62 @@
 import "./style.css";
 import { CONFIG } from "./config";
 
+// Create an AudioContext instance
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+interface AudioTrack {
+    name: string;
+    htmlMediaElement: HTMLMediaElement;
+    mediaElementAudioSourceNode: MediaElementAudioSourceNode;
+}
+
+class SlotAudioMachine {
+    private audioCtx!: AudioContext;
+    private gainNode!: GainNode;
+    private trackList!: AudioTrack[];
+
+    constructor(audioCtx: AudioContext) {
+        this.audioCtx = audioCtx;
+        this.gainNode = this.audioCtx.createGain();
+        this.gainNode.connect(audioCtx.destination);
+        this.gainNode.gain.value = 0.125;
+        this.trackList = this.loadTracks();
+    }
+
+    public loadTracks(): AudioTrack[] {
+        const trackIdList = document.querySelectorAll("audio");
+
+        const trackList: AudioTrack[] = [];
+
+        trackIdList.forEach((track) => {
+            const htmlMediaElement = document.querySelector(
+                `#${track.id}`
+            ) as HTMLMediaElement;
+            const mediaElementAudioSourceNode =
+                this.audioCtx.createMediaElementSource(htmlMediaElement);
+            mediaElementAudioSourceNode.connect(this.gainNode);
+
+            trackList.push({
+                name: track.id,
+                htmlMediaElement: htmlMediaElement,
+                mediaElementAudioSourceNode: mediaElementAudioSourceNode,
+            });
+        });
+
+        return trackList;
+    }
+
+    public async playTrack(trackId: string): Promise<any> {
+        this.trackList.forEach((track) => {
+            if (track.name === trackId) {
+                track.htmlMediaElement.play();
+            }
+        });
+    }
+}
+
+// --------------------------------------------------------------
+
 interface Reel {
     slotNumber: number;
     symbolList: Array<any>;
@@ -17,22 +73,13 @@ class SlotMachine {
     public finished_reels: number = 0;
     public result: any[] = [];
 
-    public snd = new Audio(
-        "./assets/sounds/mixkit-arcade-slot-machine-wheel-1933.wav"
-    );
-    public playButton;
+    // Audio FX
+    public audioMachine: SlotAudioMachine = new SlotAudioMachine(audioCtx);
 
     constructor() {
         this.initPreviousReelObj();
         this.createSlotMachine(CONFIG.SLOT_MACHINE_SIZE);
         this.createSpinButton();
-
-        this.playButton = document.getElementById("play");
-
-        this.playButton!.addEventListener("click", () => {
-            console.log(this.snd);
-            this.snd.play();
-        });
     }
 
     initPreviousReelObj() {
@@ -77,9 +124,7 @@ class SlotMachine {
 
         for (let i = 0; i <= CONFIG.REEL_SIZE; i++) {
             const randomIndex = Math.floor(Math.random() * CONFIG.SYMBOL_QTY);
-            const symbolHtml = `
-        <div class="symbol symbol_${randomIndex}" id="${randomIndex}"></div>
-        `;
+            const symbolHtml = `<div class="symbol symbol_${randomIndex}" id="${randomIndex}"></div>`;
             reel.innerHTML = reel.innerHTML + symbolHtml;
         }
 
@@ -171,6 +216,10 @@ class SlotMachine {
     spin(): void {
         this.createSlotMachine(CONFIG.SLOT_MACHINE_SIZE);
 
+        setTimeout(() => {
+            this.audioMachine.playTrack("audio_wheel");
+        }, CONFIG.SPIN_BUTTON_DELAY);
+
         this.reel_animations.forEach((animation: Animation) => {
             animation.play();
         });
@@ -206,12 +255,14 @@ class SlotMachine {
     }
 
     showLost() {
-        console.log("Parabéns, você tomou no cú!");
+        this.audioMachine.playTrack("audio_melodic_bonus");
+        console.log("Congratulations! You lost!");
         console.log("-----------------------------------------");
     }
 
     showWin() {
-        console.log("Parabéns, você ganhou! ...nada");
+        this.audioMachine.playTrack("audio_coin_win");
+        console.log("Congratulations! You win! nothing!");
         console.log("-----------------------------------------");
     }
 }
