@@ -616,9 +616,14 @@ class SlotMachine {
         this.result = [];
         // Audio FX
         this.audioMachine = new SlotAudioMachine(audioCtx);
+        //
+        this.score = 0;
+        this.betValue = 10;
         this.initPreviousReelObj();
         this.createSlotMachine((0, _config.CONFIG).SLOT_MACHINE_SIZE);
         this.createSpinButton();
+        this.getScore();
+        this.changeScore(0);
     }
     initPreviousReelObj() {
         for(let i = 0; i < (0, _config.CONFIG).SLOT_MACHINE_SIZE; i++)this.previous_reel.push({
@@ -690,7 +695,6 @@ class SlotMachine {
         const animation = slot.animate(frame, keyframeAnimationOptions);
         animation.cancel();
         animation.onfinish = ()=>{
-            //
             this.finished_reels = this.finished_reels + 1;
             if (this.finished_reels === (0, _config.CONFIG).SLOT_MACHINE_SIZE) {
                 this.getResult();
@@ -700,6 +704,7 @@ class SlotMachine {
         return animation;
     }
     spin() {
+        this.changeScore(-this.betValue);
         this.createSlotMachine((0, _config.CONFIG).SLOT_MACHINE_SIZE);
         setTimeout(()=>{
             this.audioMachine.playTrack("audio_wheel");
@@ -714,39 +719,69 @@ class SlotMachine {
             const offset = document.getElementById(`slot_${i}`).children.length - (0, _config.CONFIG).REEL_OFFSET;
             this.result.push(document.getElementById(`slot_${i}`).children[offset].getAttribute("id"));
         }
-        console.log(this.result);
-        const result = this.result.reduce((previous, current)=>{
-            if (previous === current) return current;
-            return null;
-        });
-        if (result === null) this.showLost();
-        else this.showWin();
+        this.checkResult(this.result);
     }
-    showLost() {
-        this.audioMachine.playTrack("audio_melodic_bonus");
-        console.log("Congratulations! You lost!");
-        console.log("-----------------------------------------");
+    checkResult(result) {
+        const uniqueValues = Array.from(new Set(result));
+        console.log(uniqueValues);
+        if (uniqueValues.length === 1) {
+            if (uniqueValues[0] === "1") this.changeScore(1000);
+            if (uniqueValues[0] === "3") this.changeScore(80);
+            if (uniqueValues[0] === "2") this.changeScore(40);
+            if (uniqueValues[0] === "0") this.changeScore(20);
+        } else if (uniqueValues.length === 2) {
+            let cherryQty = 0;
+            result.forEach((val)=>{
+                if (val === "2") cherryQty++;
+            });
+            if (cherryQty === 1) this.changeScore(5);
+            else if (cherryQty === 2) this.changeScore(2);
+            else this.changeScore(0);
+        } else {
+            let hasCherry = false;
+            uniqueValues.forEach((val)=>{
+                if (val === "2") hasCherry = true;
+            });
+            if (hasCherry) this.changeScore(2);
+            else this.changeScore(0);
+        }
     }
-    showWin() {
-        this.audioMachine.playTrack("audio_coin_win");
-        console.log("Congratulations! You win! nothing!");
-        console.log("-----------------------------------------");
+    getScore() {
+        const score = localStorage.getItem("slot-machine-score");
+        if (score === null) {
+            localStorage.setItem("slot-machine-score", "100");
+            this.getScore();
+        } else this.score = Number(score);
+    }
+    changeScore(times) {
+        this.score = this.score + times * this.betValue;
+        console.log("score:", this.score, " x:", times);
+        localStorage.setItem("slot-machine-score", this.score.toString());
+        const scoreDisplay = document.getElementsByClassName("score")[0];
+        scoreDisplay.innerHTML = `$ ${this.score.toString()}`;
     }
 }
 const sm = new SlotMachine();
 
-},{"./style.css":"bhJkM","./config":"gTux2","./sp":"6hnyO"}],"bhJkM":[function() {},{}],"gTux2":[function(require,module,exports) {
+},{"./style.css":"bhJkM","./config":"gTux2"}],"bhJkM":[function() {},{}],"gTux2":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "CONFIG", ()=>CONFIG);
+parcelHelpers.export(exports, "SYMBOL", ()=>SYMBOL);
 const CONFIG = Object.freeze({
     SLOT_MACHINE_SIZE: 3,
     REEL_SIZE: 60,
     REEL_OFFSET: 3,
     ANIMATION_DELAY: 1000,
     ANIMATION_DURATION: 2000,
-    SYMBOL_QTY: 2,
+    SYMBOL_QTY: 4,
     SPIN_BUTTON_DELAY: 800
+});
+const SYMBOL = Object.freeze({
+    BAR: "0",
+    SEVEN: "1",
+    CHERRY: "2",
+    BELL: "3"
 });
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
@@ -779,31 +814,6 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"6hnyO":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "SoundPlayer", ()=>SoundPlayer);
-class SoundPlayer {
-    constructor(){
-        this.audioCtx = new AudioContext();
-        this.audioElements = [];
-    }
-    loadSound(src) {
-        const audio = new Audio(src);
-        const source = this.audioCtx.createMediaElementSource(audio);
-        source.connect(this.audioCtx.destination);
-        this.audioElements.push(audio);
-    }
-    playSound(index) {
-        const audio = this.audioElements[index];
-        audio.play();
-    }
-    setVolume(index, volume) {
-        const audio = this.audioElements[index];
-        audio.volume = volume;
-    }
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["2oZg2","h7u1C"], "h7u1C", "parcelRequire60a4")
+},{}]},["2oZg2","h7u1C"], "h7u1C", "parcelRequire60a4")
 
 //# sourceMappingURL=index.b71e74eb.js.map

@@ -178,4 +178,16 @@ body {
   font-size: 50px;
 }
 
+.score {
+  z-index: 400;
+  color: #ff9e47;
+  background-color: #190657;
+  margin-left: -40px;
+  padding: 4px;
+  font-size: 30px;
+  position: absolute;
+  top: 77px;
+  left: 50%;
+}
+
 /*# sourceMappingURL=index.2cdaf7bc.css.map */
