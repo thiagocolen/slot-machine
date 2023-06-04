@@ -142,13 +142,13 @@
       this[globalName] = mainExports;
     }
   }
-})({"2oZg2":[function(require,module,exports) {
+})({"asUNq":[function(require,module,exports) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "d6ea1d42532a7575";
-module.bundle.HMR_BUNDLE_ID = "5c1b77e3b71e74eb";
+module.bundle.HMR_BUNDLE_ID = "893dbc90a9bb75b5";
 "use strict";
 /* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, chrome, browser, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
 import type {
@@ -573,237 +573,42 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
     });
 }
 
-},{}],"h7u1C":[function(require,module,exports) {
-var _styleCss = require("./style.css");
-var _config = require("./config");
-// Create an AudioContext instance
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-class SlotAudioMachine {
-    constructor(audioCtx){
-        this.audioCtx = audioCtx;
-        this.gainNode = this.audioCtx.createGain();
-        this.gainNode.connect(audioCtx.destination);
-        this.gainNode.gain.value = 0.125;
-        this.trackList = this.loadTracks();
-    }
-    loadTracks() {
-        const trackIdList = document.querySelectorAll("audio");
-        const trackList = [];
-        trackIdList.forEach((track)=>{
-            const htmlMediaElement = document.querySelector(`#${track.id}`);
-            const mediaElementAudioSourceNode = this.audioCtx.createMediaElementSource(htmlMediaElement);
-            mediaElementAudioSourceNode.connect(this.gainNode);
-            trackList.push({
-                name: track.id,
-                htmlMediaElement: htmlMediaElement,
-                mediaElementAudioSourceNode: mediaElementAudioSourceNode
-            });
-        });
-        return trackList;
-    }
-    async playTrack(trackId) {
-        this.trackList.forEach((track)=>{
-            if (track.name === trackId) track.htmlMediaElement.play();
-        });
-    }
+},{}],"ga2BK":[function(require,module,exports) {
+// Function to create an audio element and load a sound
+function loadSound(url) {
+    return new Promise((resolve, reject)=>{
+        const audio = new Audio();
+        audio.src = url;
+        audio.addEventListener("canplaythrough", ()=>resolve(audio));
+        audio.addEventListener("error", reject);
+    });
 }
-class SlotMachine {
-    constructor(){
-        this.reel_animations = [];
-        this.previous_reel = [];
-        // Status
-        this.finished_reels = 0;
-        this.result = [];
-        // Audio FX
-        this.audioMachine = new SlotAudioMachine(audioCtx);
-        this.initPreviousReelObj();
-        this.createSlotMachine((0, _config.CONFIG).SLOT_MACHINE_SIZE);
-        this.createSpinButton();
-    }
-    initPreviousReelObj() {
-        for(let i = 0; i < (0, _config.CONFIG).SLOT_MACHINE_SIZE; i++)this.previous_reel.push({
-            slotNumber: i,
-            symbolList: []
-        });
-    }
-    createSpinButton() {
-        this.spinButton = document.getElementsByClassName("spin-button")[0];
-        this.spinButton.addEventListener("click", ()=>{
-            this.spinButton.setAttribute("class", "spin-button spin-button-clicked");
-            setTimeout(()=>{
-                this.spinButton.setAttribute("class", "spin-button");
-            }, (0, _config.CONFIG).SPIN_BUTTON_DELAY);
-            this.spin();
-        });
-    }
-    createSlotMachine(size) {
-        this.container = document.getElementsByClassName("slot-machine")[0];
-        this.container.innerHTML = "";
-        this.reel_animations = [];
-        for(let i = 0; i < size; i++)this.reel_animations.push(this.createReel(i));
-    }
-    createReel(i) {
-        const reel = document.createElement("div");
-        reel.setAttribute("class", "reel");
-        reel.setAttribute("id", `slot_${i}`);
-        for(let i = 0; i <= (0, _config.CONFIG).REEL_SIZE; i++){
-            const randomIndex = Math.floor(Math.random() * (0, _config.CONFIG).SYMBOL_QTY);
-            const symbolHtml = `<div class="symbol symbol_${randomIndex}" id="${randomIndex}"></div>`;
-            reel.innerHTML = reel.innerHTML + symbolHtml;
-        }
-        this.previousReelChange(i, reel);
-        this.container.appendChild(reel);
-        return this.createReelAnimation(reel);
-    }
-    previousReelChange(i, reel) {
-        this.previous_reel.forEach((item)=>{
-            if (item.slotNumber === i) {
-                //
-                if (item.symbolList.length === 0) reel.prepend(reel.children.item(reel.children.length - (0, _config.CONFIG).REEL_OFFSET - 1).cloneNode(true), reel.children.item(reel.children.length - (0, _config.CONFIG).REEL_OFFSET).cloneNode(true), reel.children.item(reel.children.length - (0, _config.CONFIG).REEL_OFFSET + 1).cloneNode(true));
-                else reel.prepend(...item.symbolList);
-                //
-                item.symbolList = [];
-                //
-                item.symbolList.push(reel.children.item(reel.children.length - (0, _config.CONFIG).REEL_OFFSET - 1), reel.children.item(reel.children.length - (0, _config.CONFIG).REEL_OFFSET), reel.children.item(reel.children.length - (0, _config.CONFIG).REEL_OFFSET + 1));
-            }
-        });
-    }
-    createReelAnimation(slot) {
-        const symbolHeight = document.getElementsByClassName("symbol")[0].clientHeight;
-        const frame = [
-            {
-                transform: "translateY(0)"
-            },
-            {
-                transform: `translateY(-${slot.clientHeight - symbolHeight * 4}px)`
-            }
-        ];
-        const keyframeAnimationOptions = {
-            delay: Math.floor(Math.random() * (0, _config.CONFIG).ANIMATION_DELAY),
-            duration: (0, _config.CONFIG).ANIMATION_DURATION,
-            // https://cubic-bezier.com/#.52,.08,.45,1.19
-            easing: "cubic-bezier(.52,.08,.45,1.19)",
-            iterations: 1,
-            direction: "normal",
-            fill: "forwards"
-        };
-        const animation = slot.animate(frame, keyframeAnimationOptions);
-        animation.cancel();
-        animation.onfinish = ()=>{
-            //
-            this.finished_reels = this.finished_reels + 1;
-            if (this.finished_reels === (0, _config.CONFIG).SLOT_MACHINE_SIZE) {
-                this.getResult();
-                this.finished_reels = 0;
-            }
-        };
-        return animation;
-    }
-    spin() {
-        this.createSlotMachine((0, _config.CONFIG).SLOT_MACHINE_SIZE);
-        setTimeout(()=>{
-            this.audioMachine.playTrack("audio_wheel");
-        }, (0, _config.CONFIG).SPIN_BUTTON_DELAY);
-        this.reel_animations.forEach((animation)=>{
-            animation.play();
-        });
-    }
-    getResult() {
-        this.result = [];
-        for(let i = 0; i < (0, _config.CONFIG).SLOT_MACHINE_SIZE; i++){
-            const offset = document.getElementById(`slot_${i}`).children.length - (0, _config.CONFIG).REEL_OFFSET;
-            this.result.push(document.getElementById(`slot_${i}`).children[offset].getAttribute("id"));
-        }
-        console.log(this.result);
-        const result = this.result.reduce((previous, current)=>{
-            if (previous === current) return current;
-            return null;
-        });
-        if (result === null) this.showLost();
-        else this.showWin();
-    }
-    showLost() {
-        this.audioMachine.playTrack("audio_melodic_bonus");
-        console.log("Congratulations! You lost!");
-        console.log("-----------------------------------------");
-    }
-    showWin() {
-        this.audioMachine.playTrack("audio_coin_win");
-        console.log("Congratulations! You win! nothing!");
-        console.log("-----------------------------------------");
-    }
-}
-const sm = new SlotMachine();
-
-},{"./style.css":"bhJkM","./config":"gTux2","./sp":"6hnyO"}],"bhJkM":[function() {},{}],"gTux2":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "CONFIG", ()=>CONFIG);
-const CONFIG = Object.freeze({
-    SLOT_MACHINE_SIZE: 3,
-    REEL_SIZE: 60,
-    REEL_OFFSET: 3,
-    ANIMATION_DELAY: 1000,
-    ANIMATION_DURATION: 2000,
-    SYMBOL_QTY: 2,
-    SPIN_BUTTON_DELAY: 800
-});
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, "__esModule", {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"6hnyO":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "SoundPlayer", ()=>SoundPlayer);
-class SoundPlayer {
-    constructor(){
-        this.audioCtx = new AudioContext();
-        this.audioElements = [];
-    }
-    loadSound(src) {
-        const audio = new Audio(src);
-        const source = this.audioCtx.createMediaElementSource(audio);
-        source.connect(this.audioCtx.destination);
-        this.audioElements.push(audio);
-    }
-    playSound(index) {
-        const audio = this.audioElements[index];
+function setupButtons(sound1, sound2) {
+    const button1 = document.getElementById("button1");
+    const button2 = document.getElementById("button2");
+    // Function to play a sound
+    function playSound(audio) {
+        audio.currentTime = 0; // Reset the audio to the beginning
+        audio.volume = 0.5; // Set volume to half (0.5)
         audio.play();
     }
-    setVolume(index, volume) {
-        const audio = this.audioElements[index];
-        audio.volume = volume;
-    }
+    // Add click event listeners to the buttons
+    button1.addEventListener("click", ()=>{
+        playSound(sound1);
+    });
+    button2.addEventListener("click", ()=>{
+        playSound(sound2);
+    });
 }
+// Load the sounds using new Audio()
+Promise.all([
+    loadSound("./assets/sounds/mixkit-arcade-slot-machine-wheel-1933.wav"),
+    loadSound("./assets/sounds/mixkit-arcade-slot-machine-wheel-1933.wav")
+]).then(([audio1, audio2])=>{
+    // Call a function to set up the buttons with the sounds
+    setupButtons(audio1, audio2);
+}).catch((error)=>console.error("Error loading sounds:", error));
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["2oZg2","h7u1C"], "h7u1C", "parcelRequire60a4")
+},{}]},["asUNq","ga2BK"], "ga2BK", "parcelRequire60a4")
 
-//# sourceMappingURL=index.b71e74eb.js.map
+//# sourceMappingURL=index.a9bb75b5.js.map

@@ -11,6 +11,7 @@ body {
   color: #190657;
   background-color: #190657;
   font-family: Lilita One, cursive;
+  overflow-x: hidden;
 }
 
 .orange-texture {
